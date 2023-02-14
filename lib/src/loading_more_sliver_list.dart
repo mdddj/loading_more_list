@@ -13,8 +13,14 @@ class LoadingMoreSliverList<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<LoadingMoreBase<T>>(
-      builder: (BuildContext b, AsyncSnapshot<LoadingMoreBase<T>> s) {
-        return sliverListConfig.buildContent(context, s.data);
+      builder: (
+          BuildContext buildContext,
+          AsyncSnapshot<LoadingMoreBase<T>> s,
+          ) {
+        return sliverListConfig.buildContent(
+          buildContext,
+          sliverListConfig.sourceList,
+        );
       },
       stream: sliverListConfig.sourceList.rebuild,
       initialData: sliverListConfig.sourceList,
@@ -157,7 +163,7 @@ class LoadingMoreCustomScrollView extends StatefulWidget {
   ///
   /// Some subtypes of [ScrollView] can infer this value automatically. For
   /// example [ListView] will use the number of widgets in the child list,
-  /// while the [new ListView.separated] constructor will use half that amount.
+  /// while the [ListView.separated] constructor will use half that amount.
   ///
   /// For [CustomScrollView] and other types which do not receive a builder
   /// or list of widgets, the child count must be explicitly provided. If the
