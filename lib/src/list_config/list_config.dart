@@ -2,7 +2,7 @@
 import 'package:extended_list/extended_list.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_more_list_library/loading_more_list_library.dart';
+import 'package:loading_more_list_library_fast/loading_more_list_library_fast.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 import 'loading_more_list_config.dart';

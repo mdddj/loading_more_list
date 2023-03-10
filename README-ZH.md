@@ -40,7 +40,7 @@ dependencies:
 
 ```dart
 
-  import 'package:loading_more_list/loading_more_list.dart';
+  import 'package:loading_more_list/loading_more_list_fast.dart';
 
 ```
 

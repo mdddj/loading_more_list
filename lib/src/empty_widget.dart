@@ -24,7 +24,7 @@ class EmptyWidget extends StatelessWidget {
 //                  theme.brightness == Brightness.dark
 //                      ? 'assets/empty_dark.png'
 //                      : 'assets/empty_light.png',
-                  package: 'loading_more_list',
+                  package: 'loading_more_list_fast',
                 )),
             Text(
               msg,

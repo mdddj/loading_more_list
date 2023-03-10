@@ -1,3 +1,15 @@
+## 6.0.1
+
+细节优化
+
+## 6.0.0+1
+
+细节优化
+
+## 6.0.0
+
+性能优化
+
 ## 5.0.2
 
 * Make `LoadingMoreIndicatorBuilder` returns nullable widget.

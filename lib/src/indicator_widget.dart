@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_more_list/src/empty_widget.dart';
-import 'package:loading_more_list_library/loading_more_list_library.dart';
+import 'package:loading_more_list_library_fast/loading_more_list_library_fast.dart';
+
+import '../loading_more_list_fast.dart';
 
 class IndicatorWidget extends StatelessWidget {
   const IndicatorWidget(

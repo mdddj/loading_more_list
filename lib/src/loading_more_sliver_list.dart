@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_more_list/src/glow_notification_widget.dart';
-import 'package:loading_more_list/src/list_config/sliver_list_config.dart';
-import 'package:loading_more_list_library/loading_more_list_library.dart';
+import 'package:loading_more_list_library_fast/loading_more_list_library_fast.dart';
+
+import '../loading_more_list_fast.dart';
 
 //loading more for sliverlist and sliverGrid
 class LoadingMoreSliverList<T> extends StatelessWidget {
