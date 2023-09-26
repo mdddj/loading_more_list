@@ -1,3 +1,7 @@
+# 7.0.0
+
+* update to `loading_more_list_library_fast` to 4.0.0
+
 ## 6.0.1
 
 细节优化

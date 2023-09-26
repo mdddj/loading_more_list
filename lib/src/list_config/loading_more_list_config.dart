@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_more_list_library_fast/loading_more_list_library_fast.dart';
+import 'package:loading_more_list_library_fast/model/status.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
 
 import '../indicator_widget.dart';
@@ -13,7 +14,7 @@ typedef LoadingMoreItemBuilder<T> = Widget Function(
 
 typedef LoadingMoreIndicatorBuilder = Widget? Function(
   BuildContext context,
-  IndicatorStatus status,
+  IndicatorStatusModel status,
 );
 
 class LoadingMoreListConfig<T> {
@@ -87,7 +88,7 @@ class LoadingMoreListConfig<T> {
     //from stream builder or from refresh
     if (source == null ||
         (source.isEmpty &&
-            source.indicatorStatus == IndicatorStatus.fullScreenBusying)) {
+            source.indicatorStatus is IndicatorStatusModelWithFullScreenBusying)) {
       if (source == null || !source.isLoading) {
         if (autoRefresh) {
           // first load
@@ -104,17 +105,17 @@ class LoadingMoreListConfig<T> {
       }
       Widget? widget;
       if (indicatorBuilder != null) {
-        widget = indicatorBuilder!(context, IndicatorStatus.fullScreenBusying);
+        widget = indicatorBuilder!(context, IndicatorStatusModel.fullScreenBusying());
       }
       widget = widget ??
           IndicatorWidget(
-            IndicatorStatus.fullScreenBusying,
+            IndicatorStatusModel.fullScreenBusying(),
             isSliver: isSliver,
           );
       return widget;
     } else if (source.isEmpty &&
-        (source.indicatorStatus == IndicatorStatus.empty ||
-            source.indicatorStatus == IndicatorStatus.fullScreenError)) {
+        (source.indicatorStatus is IndicatorStatusModelWithEmpty ||
+            source.indicatorStatus is IndicatorStatusModelWithFullScreenError)) {
       Widget? widget1;
       if (indicatorBuilder != null)
         widget1 = indicatorBuilder!(context, sourceList.indicatorStatus);
@@ -122,7 +123,7 @@ class LoadingMoreListConfig<T> {
           IndicatorWidget(
             sourceList.indicatorStatus,
             isSliver: isSliver,
-            tryAgain: source.indicatorStatus == IndicatorStatus.fullScreenError
+            tryAgain: source.indicatorStatus is IndicatorStatusModelWithFullScreenError
                 ? sourceList.errorRefresh
                 : null,
           );
@@ -141,9 +142,9 @@ class LoadingMoreListConfig<T> {
         return widget;
       }
 
-      final IndicatorStatus status = sourceList.hasMore
-          ? IndicatorStatus.loadingMoreBusying
-          : IndicatorStatus.noMoreLoad;
+      final IndicatorStatusModel status = sourceList.hasMore
+          ? IndicatorStatusModel.loadingMoreBusying()
+          : IndicatorStatusModel.noMoreLoad();
 
       if (sourceList.hasMore && autoLoadMore) {
         sourceList.loadMore();
@@ -164,14 +165,14 @@ class LoadingMoreListConfig<T> {
   }
 
   Widget? buildErrorItem(BuildContext context) {
-    final bool hasError = sourceList.indicatorStatus == IndicatorStatus.error;
+    final bool hasError = sourceList.indicatorStatus is IndicatorStatusModelWithError;
     if (hasError) {
       Widget? widget;
       if (indicatorBuilder != null)
-        widget = indicatorBuilder!(context, IndicatorStatus.error);
+        widget = indicatorBuilder!(context, IndicatorStatusModel.error());
       widget = widget ??
           IndicatorWidget(
-            IndicatorStatus.error,
+            IndicatorStatusModel.error(),
             isSliver: isSliver,
             tryAgain: sourceList.errorRefresh,
           );

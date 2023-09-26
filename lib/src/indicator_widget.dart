@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_more_list_library_fast/loading_more_list_library_fast.dart';
+import 'package:loading_more_list_library_fast/model/status.dart';
 
 import '../loading_more_list_fast.dart';
 
@@ -15,7 +15,7 @@ class IndicatorWidget extends StatelessWidget {
   });
 
   ///Status of indicator
-  final IndicatorStatus status;
+  final IndicatorStatusModel status;
 
   ///call back of loading failed
   final Function? tryAgain;
@@ -34,122 +34,119 @@ class IndicatorWidget extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    Widget? widget;
-    switch (status) {
-      case IndicatorStatus.none:
-        widget = Container(height: 0.0);
-        break;
-      case IndicatorStatus.loadingMoreBusying:
-        widget = Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(right: 5.0),
-              height: 15.0,
-              width: 15.0,
-              child: getIndicator(context),
-            ),
-            Text(text ?? 'loading...')
+    final Widget widget = status.map(none: (IndicatorStatusModelWithNone value) {
+      return Container(height: 0.0);
+    }, empty: (IndicatorStatusModelWithEmpty value) {
+      Widget  w = EmptyWidget(
+        text ?? 'nothing here',
+        emptyWidget: emptyWidget,
+      );
+      w = _setbackground(true, w, double.infinity);
+      if (isSliver) {
+        w = SliverFillRemaining(
+          child: w,
+        );
+      } else {
+        w = CustomScrollView(
+          slivers: <Widget>[
+            SliverFillRemaining(
+              child: w,
+            )
           ],
         );
-        widget = _setbackground(false, widget, 35.0);
-        break;
-      case IndicatorStatus.fullScreenBusying:
-        widget = Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(right: 0.0),
-              height: 30.0,
-              width: 30.0,
-              child: getIndicator(context),
-            ),
-            Text(text ?? 'loading...')
+      }
+      return w;
+    }, loadingMoreBusying: (IndicatorStatusModelWithLoadingMoreBusying value) {
+     Widget w = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(right: 5.0),
+            height: 15.0,
+            width: 15.0,
+            child: getIndicator(context),
+          ),
+          Text(text ?? 'loading...')
+        ],
+      );
+      w = _setbackground(false, w, 35.0);
+      return w;
+    }, fullScreenBusying: (IndicatorStatusModelWithFullScreenBusying value) {
+      Widget w = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(right: 0.0),
+            height: 30.0,
+            width: 30.0,
+            child: getIndicator(context),
+          ),
+          Text(text ?? 'loading...')
+        ],
+      );
+      w = _setbackground(true, w, double.infinity);
+      if (isSliver) {
+        w = SliverFillRemaining(
+          child: w,
+        );
+      } else {
+        w = CustomScrollView(
+          slivers: <Widget>[
+            SliverFillRemaining(
+              child: w,
+            )
           ],
         );
-        widget = _setbackground(true, widget, double.infinity);
-        if (isSliver) {
-          widget = SliverFillRemaining(
-            child: widget,
-          );
-        } else {
-          widget = CustomScrollView(
-            slivers: <Widget>[
-              SliverFillRemaining(
-                child: widget,
-              )
-            ],
-          );
-        }
-        break;
-      case IndicatorStatus.error:
-        widget = Text(
-          text ?? 'load failed,try again.',
+      }
+      return w;
+    }, error: (IndicatorStatusModelWithError value) {
+      Widget  w = Text(
+        text ?? 'load failed,try again.',
+      );
+      w = _setbackground(false, w, 35.0);
+      if (tryAgain != null) {
+        w = GestureDetector(
+          onTap: () {
+            tryAgain!();
+          },
+          child: w,
         );
-        widget = _setbackground(false, widget, 35.0);
-        if (tryAgain != null) {
-          widget = GestureDetector(
-            onTap: () {
-              tryAgain!();
-            },
-            child: widget,
-          );
-        }
-        break;
-      case IndicatorStatus.fullScreenError:
-        widget = Text(
-          text ?? 'load failed,try again.',
+      }
+      return w;
+    }, fullScreenError: (IndicatorStatusModelWithFullScreenError value) {
+      Widget w = Text(
+        text ?? 'load failed,try again.',
+      );
+      w = _setbackground(true, w, double.infinity);
+      if (tryAgain != null) {
+        w = GestureDetector(
+          onTap: () {
+            tryAgain!();
+          },
+          child: w,
         );
-        widget = _setbackground(true, widget, double.infinity);
-        if (tryAgain != null) {
-          widget = GestureDetector(
-            onTap: () {
-              tryAgain!();
-            },
-            child: widget,
-          );
-        }
-        if (isSliver) {
-          widget = SliverFillRemaining(
-            child: widget,
-          );
-        } else {
-          widget = CustomScrollView(
-            slivers: <Widget>[
-              SliverFillRemaining(
-                child: widget,
-              )
-            ],
-          );
-        }
-        break;
-      case IndicatorStatus.noMoreLoad:
-        widget = Text(text ?? 'No more items.');
-        widget = _setbackground(false, widget, 35.0);
-        break;
-      case IndicatorStatus.empty:
-        widget = EmptyWidget(
-          text ?? 'nothing here',
-          emptyWidget: emptyWidget,
+      }
+      if (isSliver) {
+        w = SliverFillRemaining(
+          child: w,
         );
-        widget = _setbackground(true, widget, double.infinity);
-        if (isSliver) {
-          widget = SliverFillRemaining(
-            child: widget,
-          );
-        } else {
-          widget = CustomScrollView(
-            slivers: <Widget>[
-              SliverFillRemaining(
-                child: widget,
-              )
-            ],
-          );
-        }
-        break;
-    }
+      } else {
+        w = CustomScrollView(
+          slivers: <Widget>[
+            SliverFillRemaining(
+              child: w,
+            )
+          ],
+        );
+      }
+      return w;
+    }, noMoreLoad: (IndicatorStatusModelWithNoMoreLoad value) {
+      Widget w = Text(text ?? 'No more items.');
+      w = _setbackground(false, w, 35.0);
+      return w;
+    },);
     return widget;
   }
 
