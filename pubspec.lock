@@ -82,10 +82,10 @@ packages:
     dependency: "direct main"
     description:
       name: loading_more_list_library_fast
-      sha256: "318c159f14708444b30b854dd01bc011cf9f5f3f576034bcbb7e89216300a750"
+      sha256: "540e926dcf0f3720e332afa82dd7ef0db2e5bee4d9c639671d0db40c7ea360d7"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.3"
+    version: "4.3.0"
   material_color_utilities:
     dependency: transitive
     description:
