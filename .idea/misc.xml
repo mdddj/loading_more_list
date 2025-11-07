@@ -1,0 +1,17 @@
+<project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <type id="android" />
+  </component>
+  <component name="JsBuildToolPackageJson" sorting="DEFINITION_ORDER" />
+  <component name="ProjectType">
+    <option name="id" value="io.flutter" />
+  </component>
+  <component name="SshConsoleOptionsProvider">
+    <option name="myEncoding" value="UTF-8" />
+    <option name="myConnectionType" value="NONE" />
+    <option name="myConnectionId" value="" />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="497000" />
+  </component>
+</project>
